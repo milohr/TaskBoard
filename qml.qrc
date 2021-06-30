@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>TaskColumnContent.qml</file>
+        <file>TasksModel.qml</file>
+        <file>Data.json</file>
+        <file>data.js</file>
+    </qresource>
+</RCC>
