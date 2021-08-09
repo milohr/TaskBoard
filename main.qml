@@ -55,7 +55,8 @@ Window {
         console.log("io.text: " + io.text)
         visualModel.model = JSON.parse(io.text)
 
-        //console.log(JSON.stringify(taskBoard.taskBoardData, null, 4))
+        console.log("tttttttttt")
+        console.log(JSON.stringify(visualModel.model))
 
     }
 }

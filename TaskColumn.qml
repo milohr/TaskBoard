@@ -129,24 +129,38 @@ Item {
             }
 
 
-            DelegateModel {
-                id: visualModelTasksContent
+            Column {
 
-                model: modelData.tasks
-                delegate: Task{
+                NoTaskPlaceholder {
+                    id: noTaskPlaceholder
+
                     taskColumnIndex: columnTaskItem.taskColumnIndex
-                    taskIndex: DelegateModel.itemsIndex
+                    visible: modelData.tasks.length === 0
                 }
-            }
 
-            ListView {
-                id: view
 
-                anchors { fill: parent; margins: 2 }
-                model: visualModelTasksContent
-                spacing: 4
-                cacheBuffer: 50
-                height: 300
+                DelegateModel {
+                    id: visualModelTasksContent
+
+                    model: modelData.tasks
+                    delegate: Task{
+                        taskColumnIndex: columnTaskItem.taskColumnIndex
+                        taskIndex: DelegateModel.itemsIndex
+                    }
+                }
+
+                ListView {
+                    id: view
+
+                    //anchors { fill: parent; margins: 2 }
+
+                    model: visualModelTasksContent
+                    spacing: 4
+                    cacheBuffer: 50
+                    height: tasks.height - noTaskPlaceholder.height
+                    width: tasks.width
+                }
+
             }
         }
     }

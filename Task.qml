@@ -5,10 +5,6 @@ Item {
 
     property int taskColumnIndex
     property int taskIndex
-    property int droppedColumnIndex
-    property int droppedTaskIndex
-
-
 
     height: taskAndPlaceholderColumn.height
     width: parent.width
@@ -21,8 +17,6 @@ Item {
         anchors.fill: parent
         width: parent.width
 
-        keys: "task"
-
         onEntered: {
 
             console.log("--- onEntered DropArea1")
@@ -30,32 +24,21 @@ Item {
             console.log("on entered source task index: " + drag.source.taskIndex)
             console.log("on entered current column: " + taskcolumnHeaderDragArea.taskColumnIndex)
             console.log("on entered current task index: " + taskcolumnHeaderDragArea.taskIndex)
-            console.log("on entered droppedColumnIndex: " + taskItem.droppedColumnIndex)
-            console.log("on entered droppedTaskIndex : " + taskItem.droppedTaskIndex)
             console.log("--- onEntered DropArea1")
-
 
             if (taskcolumnHeaderDragArea.taskColumnIndex === drag.source.taskColumnIndex) {
                 visualModelTasksContent.items.move(
                         drag.source.taskIndex,
                         taskcolumnHeaderDragArea.taskIndex)
-
                 sourceAndTargetColumnsDifferent = false
-
             } else {
                 sourceAndTargetColumnsDifferent = true
-                taskItem.droppedColumnIndex = taskcolumnHeaderDragArea.taskColumnIndex
-                taskItem.droppedTaskIndex = taskcolumnHeaderDragArea.taskIndex
-
-
                 console.log("")
                 console.log("--- onEntered DropArea1 + source and target different")
                 console.log("on entered source column: " + drag.source.taskColumnIndex)
                 console.log("on entered source task index: " + drag.source.taskIndex)
                 console.log("on entered current column: " + taskcolumnHeaderDragArea.taskColumnIndex)
                 console.log("on entered current task index: " + taskcolumnHeaderDragArea.taskIndex)
-                console.log("on entered droppedColumnIndex: " + taskItem.droppedColumnIndex)
-                console.log("on entered droppedTaskIndex : " + taskItem.droppedTaskIndex)
                 console.log("--- onEntered DropArea1 + source and target different")
             }
         }
@@ -70,18 +53,15 @@ Item {
 
             anchors.fill: parent
             width: parent.width
-
-           // drag.target: heldTask ? taskAndPlaceholderColumn : undefined
             drag.target: taskAndPlaceholderColumn
-            //drag.axis: Drag.YAxis
 
-            onPressAndHold: {
+            onPressAndHold: {    //I don't understand why I do not have to wait a few second before press works
                 heldTask = true
                 console.log("tt")
             }
 
             onReleased: {
-                parent = taskAndPlaceholderColumn.Drag.target !== null ? taskAndPlaceholderColumn.Drag.target : taskItem
+                parent = taskAndPlaceholderColumn.Drag.target === bottomPlaceHolderDropArea ? taskAndPlaceholderColumn.Drag.target : taskItem
                 heldTask = false
                 console.log("drop signal")
                 taskAndPlaceholderColumn.Drag.drop()
@@ -101,7 +81,7 @@ Item {
                 Drag.hotSpot.y: height / 2
 
                 states: State {
-                    when: taskcolumnHeaderDragArea.heldTask
+                    when: taskcolumnHeaderDragArea.drag.active
 
                     ParentChange { target: taskAndPlaceholderColumn; parent: root }
                     AnchorChanges {
@@ -140,7 +120,7 @@ Item {
                     visible: taskDropArea.containsDrag && taskDropArea.sourceAndTargetColumnsDifferent //false// taskItemDropArea.containsDrag// && taskItemDropArea.sourceTaskAndTaskInDifferentColumns
                     width: parent.width
                     height: 100
-                    color: !taskDropArea.containsDrag ? "grey" : "green"
+                    color: !bottomPlaceHolderDropArea.containsDrag ? "grey" : "green"
 
                     Text {
                         anchors.fill: parent
@@ -153,29 +133,36 @@ Item {
 
                         anchors.fill: parent
 
+                        keys: "task"
+
                         onDropped: {
 
+                            if (bottomPlaceHolderDropArea.containsDrag) {
 
-                            console.log("--- onDropped droparea2")
-                            console.log("on entered source column: " + drag.source.taskColumnIndex)
-                            console.log("on entered source task index: " + drag.source.taskIndex)
-                            console.log("on entered current column: " + taskcolumnHeaderDragArea.taskColumnIndex)
-                            console.log("on entered current task index: " + taskcolumnHeaderDragArea.taskIndex)
-                            console.log("on entered droppedColumnIndex: " + taskItem.droppedColumnIndex)
-                            console.log("on entered droppedTaskIndex : " + taskItem.droppedTaskIndex)
-                            console.log("--- onDropped droparea2")
-
-
-                            var tmpData = visualModel.model
-                            tmpData[taskColumnIndex].tasks.splice(index+1, 0,tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex])
-                            tmpData[drag.source.taskColumnIndex].tasks.splice(drag.source.taskIndex, 1)
-                            visualModel.model = tmpData
-
-                            console.log("ddd:" + tmpData[0].headertitle)
-                            console.log(drag.source.taskColumnIndex)
-                            console.log(drag.source.taskIndex)
+                                console.log("--- onDropped droparea2")
+                                console.log("on entered source column: " + drag.source.taskColumnIndex)
+                                console.log("on entered source task index: " + drag.source.taskIndex)
+                                console.log("on entered current column: " + taskcolumnHeaderDragArea.taskColumnIndex)
+                                console.log("on entered current task index: " + taskcolumnHeaderDragArea.taskIndex)
+                                console.log("--- onDropped droparea2")
 
 
+                                var tmpData = visualModel.model
+                                tmpData[taskColumnIndex].tasks.splice(index+1, 0,tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex])
+                                tmpData[drag.source.taskColumnIndex].tasks.splice(drag.source.taskIndex, 1)                                                               
+                                //if no task anymore in the column, needs to create a placeholder
+                                if (tmpData[drag.source.taskColumnIndex].tasks.length === 0) {
+
+                                }
+                                visualModel.model = tmpData
+
+
+
+
+                                console.log("ddd:" + tmpData[0].headertitle)
+                                console.log(drag.source.taskColumnIndex)
+                                console.log(drag.source.taskIndex)
+                            }
                         }
                     }
                 }

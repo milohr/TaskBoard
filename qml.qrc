@@ -5,5 +5,6 @@
         <file>Data.json</file>
         <file>TaskColumn.qml</file>
         <file>Task.qml</file>
+        <file>NoTaskPlaceholder.qml</file>
     </qresource>
 </RCC>
