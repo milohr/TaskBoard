@@ -81,16 +81,18 @@ Item {
             }
 
             onReleased: {
+                parent = taskAndPlaceholderColumn.Drag.target !== null ? taskAndPlaceholderColumn.Drag.target : taskItem
                 heldTask = false
                 console.log("drop signal")
                 taskAndPlaceholderColumn.Drag.drop()
+                taskAndPlaceholderColumn.parent = taskItem
+                taskAndPlaceholderColumn.x = 0
+                taskAndPlaceholderColumn.y = 0
             }
-
 
 
             Column {
                 id: taskAndPlaceholderColumn
-
 
                 Drag.keys: "task"
                 Drag.active: taskcolumnHeaderDragArea.drag.active

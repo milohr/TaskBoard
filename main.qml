@@ -53,7 +53,6 @@ Window {
 
         io.read()
         console.log("io.text: " + io.text)
-        //taskBoard.taskBoardData = JSON.parse(io.text)
         visualModel.model = JSON.parse(io.text)
 
         //console.log(JSON.stringify(taskBoard.taskBoardData, null, 4))
