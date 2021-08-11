@@ -82,9 +82,17 @@ Item {
                 taskAndPlaceholderColumn.y = 0
             }
 
-            onDoubleClicked: {
-                taskContent.textTextEdit = "tt"
+            onClicked: {
                 taskContent.taskTitleTextEditEnabled = true
+                taskContent.taskDescriptionTextEditEnabled = true
+
+                taskContentEditDialog.open()
+
+            }
+
+
+            TaskContentEditDialog {
+                id: taskContentEditDialog
             }
 
             Column {
@@ -121,18 +129,12 @@ Item {
 
                     radius: 2
 
-//                    Column {
-//                        id: column
-//                        anchors { fill: parent; margins: 2 }
-
-//                        Text { text: 'title: ' + modelData.title + "##" + taskDragArea.taskColumnIndex}
-//                        Text { text: 'description: ' + modelData.description }
-//                    }
-
                     TaskContent {
                         id: taskContent
-                    }
 
+                        taskTitle: modelData.title
+                        taskDescription: modelData.description
+                    }
                 }
 
                 Rectangle {
@@ -158,8 +160,6 @@ Item {
 
                         onDropped: {
 
-
-
                             if (bottomPlaceHolderDropArea.containsDrag) {
 
                                 console.log("--- onDropped droparea2")
@@ -169,18 +169,10 @@ Item {
                                 console.log("on entered current task index: " + taskDragArea.taskIndex)
                                 console.log("--- onDropped droparea2")
 
-
                                 var tmpData = visualModel.model
                                 tmpData[taskColumnIndex].tasks.splice(index+1, 0,tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex])
                                 tmpData[drag.source.taskColumnIndex].tasks.splice(drag.source.taskIndex, 1)                                                               
-                                //if no task anymore in the column, needs to create a placeholder
-                                if (tmpData[drag.source.taskColumnIndex].tasks.length === 0) {
-
-                                }
                                 visualModel.model = tmpData
-
-
-
 
                                 console.log("ddd:" + tmpData[0].headertitle)
                                 console.log(drag.source.taskColumnIndex)

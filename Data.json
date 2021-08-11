@@ -12,13 +12,13 @@
             {
                 "title": "Column 1 Second task title",
                 "description": "Column 1 Second task description",
-                "image": "Column 1 First task image",
+                "image": "Column 1 Second task image",
                 "color": "#0ACF97"
             },
             {
                 "title": "Column 1 Third task title",
                 "description": "Column 1 Third task description",
-                "image": "Column 1 First task image",
+                "image": "Column 1 Third task image",
                 "color": "#F9375E"
             }
         ]
@@ -36,13 +36,13 @@
             {
                 "title": "Column 2 Second task title",
                 "description": "Column 2 Second task description",
-                "image": "Column 2 First task image",
+                "image": "Column 2 Second task image",
                 "color": "#2B99B9"
             },
             {
                 "title": "Column 2 Third task title",
                 "description": "Column 2 Third task description",
-                "image": "Column 2 First task image",
+                "image": "Column 2 Third task image",
                 "color": "#5A6268"
             }
         ]
@@ -59,14 +59,14 @@
             },
             {
                 "title": "Column 3 Second task title",
-                "description": "Column 3 First task description",
-                "image": "Column 3 First task image",
+                "description": "Column 3 Second task description",
+                "image": "Column 3 Second task image",
                 "color": "#212730"
             },
             {
                 "title": "Column 3 Third task title",
                 "description": "Column 3 Third task description",
-                "image": "Column 3 First task image",
+                "image": "Column 3 Third task image",
                 "color": "#3498DB"
             }
         ]

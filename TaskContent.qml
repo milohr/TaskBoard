@@ -3,11 +3,10 @@ import QtQuick 2.12
 Item {
     id: taskContent
 
-    property string textTextEdit: "test3"
     property bool taskTitleTextEditEnabled: false
-    property string taskDescription
+    property bool taskDescriptionTextEditEnabled: false
     property string taskTitle
-
+    property string taskDescription
 
     width: parent.width
     anchors.top: parent.top
@@ -20,8 +19,6 @@ Item {
 
         //    property var computedTaskHeight: actionsRectangle.height + taskTitleTextEdit.height + taskDescriptionTextEdit.height + 15   //? why +15 no idea :( but otherwise the taskDescriptionTextEdit is not taken into account
         property var computedTaskHeight: actionsRectangle.height + taskTitleTextEdit.height + taskDescriptionTextEdit.height + 15   //? why +15 no idea :( but otherwise the taskDescriptionTextEdit is not taken into account
-
-
 
         width: parent.width
         spacing: 4
@@ -108,7 +105,7 @@ Item {
 
                 wrapMode: TextEdit.Wrap
                 font.pointSize: 10
-                text: "kkk" //taskTitle
+                text: taskTitle
               //  activeFocusOnPress: false
               //  color: "green"
                 enabled: taskTitleTextEditEnabled
@@ -134,6 +131,8 @@ Item {
             wrapMode: TextEdit.Wrap
             font.pointSize: 9
             text: taskContent.taskDescription
+            enabled: taskDescriptionTextEditEnabled
+
 
 
             onEditingFinished : {

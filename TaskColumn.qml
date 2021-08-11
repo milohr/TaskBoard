@@ -100,7 +100,7 @@ Item {
 
                     visualModel.items.move(
                             drag.source.taskColumnIndex,
-                            columnHeaderDragArea.taskColumnIndex)
+                            columnHeaderDragArea.taskColumnIndex)                    
                 }
             }
         }
@@ -169,33 +169,3 @@ Item {
 
 
 
-//                    DropArea {
-//                        id: taskDropArea
-
-//                        property bool sourceAndTargetColumnsDifferent: true
-
-//                        anchors { fill: parent; margins: 10 }
-
-//                        onDropped: {
-//                            console.log("tttttttttttttttttttttt")
-//                        }
-
-//                        onEntered: {
-//                            console.log("drag.source.taskColumnIndex: " + drag.source.taskColumnIndex)
-//                            console.log("taskcolumnHeaderDragArea.taskColumnIndex: " + taskcolumnHeaderDragArea.taskColumnIndex)
-
-//                            console.log("drag.source.DelegateModel.itemsIndex: " + drag.source.DelegateModel.itemsIndex)
-//                            console.log("taskcolumnHeaderDragArea.DelegateModel.itemsIndex: " + taskcolumnHeaderDragArea.DelegateModel.itemsIndex)
-
-//                            if (taskcolumnHeaderDragArea.taskColumnIndex === drag.source.taskColumnIndex) {
-//                                visualModelTaskContent.items.move(
-//                                        drag.source.DelegateModel.itemsIndex,
-//                                        taskcolumnHeaderDragArea.DelegateModel.itemsIndex)
-
-//                                taskDropArea.sourceAndTargetColumnsDifferent = false
-
-//                            } else {
-//                                taskDropArea.sourceAndTargetColumnsDifferent = true
-//                            }
-//                        }
-//                    }

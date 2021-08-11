@@ -6,5 +6,6 @@
         <file>Task.qml</file>
         <file>NoTaskPlaceholder.qml</file>
         <file>TaskContent.qml</file>
+        <file>TaskContentEditDialog.qml</file>
     </qresource>
 </RCC>
