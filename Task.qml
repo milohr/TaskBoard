@@ -22,14 +22,26 @@ Item {
             console.log("--- onEntered DropArea1")
             console.log("on entered source column: " + drag.source.taskColumnIndex)
             console.log("on entered source task index: " + drag.source.taskIndex)
-            console.log("on entered current column: " + taskcolumnHeaderDragArea.taskColumnIndex)
-            console.log("on entered current task index: " + taskcolumnHeaderDragArea.taskIndex)
+            console.log("on entered current column: " + taskDragArea.taskColumnIndex)
+            console.log("on entered current task index: " + taskDragArea.taskIndex)
             console.log("--- onEntered DropArea1")
 
-            if (taskcolumnHeaderDragArea.taskColumnIndex === drag.source.taskColumnIndex) {
+            if (taskDragArea.taskColumnIndex === drag.source.taskColumnIndex) {
+
                 visualModelTasksContent.items.move(
                         drag.source.taskIndex,
-                        taskcolumnHeaderDragArea.taskIndex)
+                        taskDragArea.taskIndex)
+
+
+             //   visualModel.model.tasks[taskColumnIndex] = visualModelTasksContent
+
+                console.log("kkkkk")
+                console.log(JSON.stringify(visualModel.model))
+                console.log("kkkkk")
+                console.log(JSON.stringify(visualModelTasksContent.model))
+
+
+
                 sourceAndTargetColumnsDifferent = false
             } else {
                 sourceAndTargetColumnsDifferent = true
@@ -37,15 +49,15 @@ Item {
                 console.log("--- onEntered DropArea1 + source and target different")
                 console.log("on entered source column: " + drag.source.taskColumnIndex)
                 console.log("on entered source task index: " + drag.source.taskIndex)
-                console.log("on entered current column: " + taskcolumnHeaderDragArea.taskColumnIndex)
-                console.log("on entered current task index: " + taskcolumnHeaderDragArea.taskIndex)
+                console.log("on entered current column: " + taskDragArea.taskColumnIndex)
+                console.log("on entered current task index: " + taskDragArea.taskIndex)
                 console.log("--- onEntered DropArea1 + source and target different")
             }
         }
 
 
         MouseArea {
-            id: taskcolumnHeaderDragArea
+            id: taskDragArea
 
             property bool heldTask: false
             property int taskColumnIndex: taskItem.taskColumnIndex
@@ -55,7 +67,7 @@ Item {
             width: parent.width
             drag.target: taskAndPlaceholderColumn
 
-            onPressAndHold: {    //I don't understand why I do not have to wait a few second before press works
+            onPressAndHold: {    //I don't understand why I do not have to wait a few seconds before press works
                 heldTask = true
                 console.log("tt")
             }
@@ -70,18 +82,22 @@ Item {
                 taskAndPlaceholderColumn.y = 0
             }
 
+            onDoubleClicked: {
+                taskContent.textTextEdit = "tt"
+                taskContent.taskTitleTextEditEnabled = true
+            }
 
             Column {
                 id: taskAndPlaceholderColumn
 
                 Drag.keys: "task"
-                Drag.active: taskcolumnHeaderDragArea.drag.active
-                Drag.source: taskcolumnHeaderDragArea
+                Drag.active: taskDragArea.drag.active 
+                Drag.source: taskDragArea
                 Drag.hotSpot.x: width / 2
                 Drag.hotSpot.y: height / 2
 
                 states: State {
-                    when: taskcolumnHeaderDragArea.drag.active
+                    when: taskDragArea.drag.active
 
                     ParentChange { target: taskAndPlaceholderColumn; parent: root }
                     AnchorChanges {
@@ -94,24 +110,29 @@ Item {
                 Rectangle {
                     id: taskRectangle
 
-                    width: taskcolumnHeaderDragArea.width; //height: column.implicitHeight + 4
+                    width: taskDragArea.width; //height: column.implicitHeight + 4
                     height: 100
 
                     border.width: 1
                     border.color: "green"
 
-                    color: taskcolumnHeaderDragArea.held ? "lightsteelblue" : "white"
+                    color: taskDragArea.heldTask ? "lightsteelblue" : "white"
                     Behavior on color { ColorAnimation { duration: 100 } }
 
                     radius: 2
 
-                    Column {
-                        id: column
-                        anchors { fill: parent; margins: 2 }
+//                    Column {
+//                        id: column
+//                        anchors { fill: parent; margins: 2 }
 
-                        Text { text: 'title: ' + modelData.title + "##" + taskcolumnHeaderDragArea.taskColumnIndex}
-                        Text { text: 'description: ' + modelData.description }
+//                        Text { text: 'title: ' + modelData.title + "##" + taskDragArea.taskColumnIndex}
+//                        Text { text: 'description: ' + modelData.description }
+//                    }
+
+                    TaskContent {
+                        id: taskContent
                     }
+
                 }
 
                 Rectangle {
@@ -137,13 +158,15 @@ Item {
 
                         onDropped: {
 
+
+
                             if (bottomPlaceHolderDropArea.containsDrag) {
 
                                 console.log("--- onDropped droparea2")
                                 console.log("on entered source column: " + drag.source.taskColumnIndex)
                                 console.log("on entered source task index: " + drag.source.taskIndex)
-                                console.log("on entered current column: " + taskcolumnHeaderDragArea.taskColumnIndex)
-                                console.log("on entered current task index: " + taskcolumnHeaderDragArea.taskIndex)
+                                console.log("on entered current column: " + taskDragArea.taskColumnIndex)
+                                console.log("on entered current task index: " + taskDragArea.taskIndex)
                                 console.log("--- onDropped droparea2")
 
 
@@ -181,7 +204,7 @@ Item {
 //                console.log("on dropped source column: " + drag.source.taskColumnIndex)
 //                console.log("on dropped source task index: " + drag.source.taskIndex)
 //                console.log("on dropped current column: " + parent.taskColumnIndex)
-//                console.log("on dropped current task index: " + taskcolumnHeaderDragArea.taskIndex)
+//                console.log("on dropped current task index: " + taskDragArea.taskIndex)
 //                console.log("on dropped current column memo: " + taskItem.taskColumnIndex)
 //                console.log("on dropped current task index memo: " + taskItem.taskIndex)
 //                console.log("--- xxxxx")
@@ -200,11 +223,11 @@ Item {
 ////                console.log("JSON.stringify(tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex]")
 ////                console.log(JSON.stringify(tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex]))
 ////                console.log("\nColumn index to insert")
-////                console.log(taskcolumnHeaderDragArea.taskColumnIndex)
+////                console.log(taskDragArea.taskColumnIndex)
 
-////                tmpData[taskcolumnHeaderDragArea.taskColumnIndex].tasks.splice(1 + taskcolumnHeaderDragArea.taskIndex, 0,tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex])
-////                console.log("taskcolumnHeaderDragArea.taskIndex+1: ")
-////                console.log(taskcolumnHeaderDragArea.taskIndex+1)
+////                tmpData[taskDragArea.taskColumnIndex].tasks.splice(1 + taskDragArea.taskIndex, 0,tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex])
+////                console.log("taskDragArea.taskIndex+1: ")
+////                console.log(taskDragArea.taskIndex+1)
 
 
 ////                console.log("insert: ")

@@ -25,7 +25,7 @@ Window {
         DelegateModel {
             id: visualModel
 
-            delegate: TaskColumn{
+            delegate: TaskColumn {
                 taskColumnIndex: DelegateModel.itemsIndex
             }
         }

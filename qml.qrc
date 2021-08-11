@@ -1,10 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>TaskColumnContent.qml</file>
         <file>Data.json</file>
         <file>TaskColumn.qml</file>
         <file>Task.qml</file>
         <file>NoTaskPlaceholder.qml</file>
+        <file>TaskContent.qml</file>
     </qresource>
 </RCC>
