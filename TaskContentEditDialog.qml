@@ -5,137 +5,118 @@ import QtQuick.Layouts 1.12
 Popup {
     id: taskContentEditDialog
 
+    property string taskTitle
+    property string taskDescription
+
+
     signal pupilsDetailsAdded()
 
     anchors.centerIn: Overlay.overlay
     width: 600
-    height: 600
+    height: 300
     modal: true
     focus: true
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
 
-    ColumnLayout {
+    Column{
         height: parent.height
 
         width: parent.width
 
         Rectangle {
-            id: addPupilsFromListTextRectangle
+            id: titleTextInputRectangle
 
-            Layout.preferredWidth: parent.width
-            Layout.alignment: Qt.AlignCenter
-            Layout.minimumHeight: 40
-            Layout.preferredHeight: 40
-            Text {
-                id: deletePupilGroupsText
-                anchors.centerIn: parent
-                text: qsTr("Add Pupils From List")
-                font.bold: true
-                color: Style.colourNavigationBarBackground
-                font {
-                  family: Style.fontAwesome
-                  pixelSize: 15
-                }
-            }
-        }
-
-        Rectangle {
-
-            Layout.preferredWidth: parent.width
-            Layout.alignment: Qt.AlignCenter
-            Layout.minimumHeight: 80
-            Layout.preferredHeight: 100
-            Text {
-                anchors.centerIn: parent
-                text: qsTr("Format:\nPatrick Dummy;2003\nPatricia Brown;2004\nor\nPatrick Dummy;2003;2nd grade-music-sport\nPatricia Brown;2004;2nd grade-music-art")
-                font.bold: true
-                color: "grey"
-                font {
-                  family: Style.fontAwesome
-                  pixelSize: 12
-                }
-            }
-        }
-
-
-        Rectangle {
-            id: textEditRectangle
-
-            Layout.preferredWidth: parent.width - 20
-            Layout.minimumWidth: parent.width - 20
-            Layout.fillHeight: true
-            Layout.alignment: Qt.AlignCenter
+            width: parent.width
+            height: 30
             border.color: "grey"
             border.width: 1
 
-            Flickable {
-                 id: flick
+            TextInput {
+                 id: titleTextInput
 
                  anchors.fill: parent
-                 contentWidth: edit.paintedWidth
-                 contentHeight: edit.paintedHeight
-                 clip: true
-
-                 function ensureVisible(r)
-                 {
-                     if (contentX >= r.x)
-                         contentX = r.x;
-                     else if (contentX+width <= r.x+r.width)
-                         contentX = r.x+r.width-width;
-                     if (contentY >= r.y)
-                         contentY = r.y;
-                     else if (contentY+height <= r.y+r.height)
-                         contentY = r.y+r.height-height;
-                 }
-
-                 TextEdit {
-                     id: edit
-                     width: textEditRectangle.width
-                     focus: true
-                     wrapMode: TextEdit.Wrap
-                     onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
-
-                     color: "black"
-
-                     text: Activity.debugString
-
-
-                 }
+                 anchors.margins: 5
+                 width: parent.width
+                 focus: true
+                 color: "black"
+                 text: taskTitle
             }
+        }
+
+
+        Rectangle {
+            id: descriptionTextEditRectangle
+
+            width: parent.width
+            height: descriptionTextEdit.contentHeight
+            border.color: "grey"
+            border.width: 1
+
+            TextEdit {
+                id: descriptionTextEdit
+
+                //height: contentHeight
+
+                anchors.fill: parent
+                focus: true
+                wrapMode: TextEdit.Wrap
+
+                color: "black"
+
+                text: taskDescription
+            }
+
         }
 
         Rectangle {
             id: okCancelRectangle
 
-            Layout.preferredWidth: parent.width
-            Layout.alignment: Qt.AlignCenter
-            Layout.minimumHeight: saveButton.height
-            Layout.preferredHeight: Layout.minimumHeight
+            width: parent.width
+            height: 30
 
             Button {
                 id: saveButton
 
-                anchors.right: parent.right
+                width: 100
+                anchors.top: parent.top
                 anchors.bottom: parent.bottom
+                anchors.right: parent.right
+
+                palette {
+                       button: "green"
+                }
+
                 text: qsTr("Save")
                 onClicked: {
-
-              //      var lines = edit.text.split('\n')
-
-                    Activity.addPupilsNamesFromList(edit.text)
-
-                    //console.log("---- " + lines)
-                    taskContentEditDialog.pupilsDetailsAdded()
-                    taskContentEditDialog.close();
-
+                    var tmpData = visualModel.model
+                    console.log("tmpData[taskColumnIndex].tasks[taskIndex].description: " + tmpData[taskColumnIndex].tasks[taskIndex].description)
+                    tmpData[taskColumnIndex].tasks[taskIndex].title = titleTextInput.text
+                    tmpData[taskColumnIndex].tasks[taskIndex].description = descriptionTextEdit.text
+                    console.log(visualModel.model)
+                    visualModel.model = tmpData
                 }
+
+
+
+
+                //            onEditingFinished : {
+                //                var tmpData = visualModel.model
+                //                console.log("tmpData[taskColumnIndex].tasks[taskIndex].description: " + tmpData[taskColumnIndex].tasks[taskIndex].description)
+                //                tmpData[taskColumnIndex].tasks[taskIndex].description = taskDescriptionTextEdit.text
+                //                visualModel.model = tmpData
+                //            }
+
+
 
             }
 
             Button {
                 id: cancelButton
 
+                width: 100
+                anchors.rightMargin: 5
                 anchors.right: saveButton.left
+                anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 text: qsTr("Cancel")
 

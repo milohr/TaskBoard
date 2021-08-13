@@ -12,13 +12,10 @@ Item {
     anchors.top: parent.top
     anchors.left: parent.left
 
+    property var computedTaskHeight: actionsRectangle.height + taskTitleTextEdit.height + taskDescriptionTextEditRectangle.height + 15   //? why +15 no idea :( but otherwise the taskDescriptionTextEdit is not taken into account
+
     Column {
         id: taskContentColumn
-
-        property bool enableTextEdit
-
-        //    property var computedTaskHeight: actionsRectangle.height + taskTitleTextEdit.height + taskDescriptionTextEdit.height + 15   //? why +15 no idea :( but otherwise the taskDescriptionTextEdit is not taken into account
-        property var computedTaskHeight: actionsRectangle.height + taskTitleTextEdit.height + taskDescriptionTextEdit.height + 15   //? why +15 no idea :( but otherwise the taskDescriptionTextEdit is not taken into account
 
         width: parent.width
         spacing: 4
@@ -96,52 +93,40 @@ Item {
 
             color: "green"
 
-
-
             TextEdit {
                 id: taskTitleTextEdit
 
+                leftPadding: 5
                 anchors.fill: parent
-
                 wrapMode: TextEdit.Wrap
                 font.pointSize: 10
                 text: taskTitle
-              //  activeFocusOnPress: false
-              //  color: "green"
-                enabled: taskTitleTextEditEnabled
-
-    //            onEditingFinished : {
-    //                console.log("taskTitleTextEdit.text: " + taskTitleTextEdit.text)
-
-    //                var tmpData = visualModel.model
-    //                console.log("tmpData[taskColumnIndex].tasks[taskIndex].title: " + tmpData[taskColumnIndex].tasks[taskIndex].title)
-    //                tmpData[taskColumnIndex].tasks[taskIndex].title = taskTitleTextEdit.text
-    //                visualModel.model = tmpData
-    //            }
-
+                enabled: false
             }
 
         }
 
-        TextEdit {
-            id: taskDescriptionTextEdit
+        Rectangle {
+            id: taskDescriptionTextEditRectangle
 
             width: parent.width
-            height: 80
-            wrapMode: TextEdit.Wrap
-            font.pointSize: 9
-            text: taskContent.taskDescription
-            enabled: taskDescriptionTextEditEnabled
+            height: taskDescriptionTextEdit.contentHeight < 70 ? 70 : taskDescriptionTextEdit.contentHeight
 
+            color: "lightblue"
 
+            TextEdit {
+                id: taskDescriptionTextEdit
 
-            onEditingFinished : {
-                var tmpData = visualModel.model
-                console.log("tmpData[taskColumnIndex].tasks[taskIndex].description: " + tmpData[taskColumnIndex].tasks[taskIndex].description)
-                tmpData[taskColumnIndex].tasks[taskIndex].description = taskDescriptionTextEdit.text
-                visualModel.model = tmpData
+                leftPadding: 5
+                width: parent.width
+                wrapMode: TextEdit.Wrap
+                font.pointSize: 9
+                text: taskContent.taskDescription
+                enabled: false
             }
         }
+
+
     }
 
 }

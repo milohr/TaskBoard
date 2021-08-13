@@ -83,16 +83,19 @@ Item {
             }
 
             onClicked: {
-                taskContent.taskTitleTextEditEnabled = true
-                taskContent.taskDescriptionTextEditEnabled = true
-
                 taskContentEditDialog.open()
-
             }
 
 
             TaskContentEditDialog {
                 id: taskContentEditDialog
+
+                taskTitle: modelData.title
+                taskDescription: modelData.description
+//                taskColumnIndex: taskItem.taskColumnIndex
+//                taskIndex: taskItem.taskIndex
+
+
             }
 
             Column {
@@ -102,7 +105,7 @@ Item {
                 Drag.active: taskDragArea.drag.active 
                 Drag.source: taskDragArea
                 Drag.hotSpot.x: width / 2
-                Drag.hotSpot.y: height / 2
+                Drag.hotSpot.y: 10
 
                 states: State {
                     when: taskDragArea.drag.active
@@ -119,7 +122,7 @@ Item {
                     id: taskRectangle
 
                     width: taskDragArea.width; //height: column.implicitHeight + 4
-                    height: 100
+                    height: taskContent.computedTaskHeight
 
                     border.width: 1
                     border.color: "green"
