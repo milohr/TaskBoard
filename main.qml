@@ -7,8 +7,8 @@ import gcompris_tasks 1.0
 Window {
     id: applicationWindow
     visible: true
-    width: 910
-    height: 480
+    width: 1000
+    height: 600
     title: qsTr("Hello World")
 
     Component.onCompleted: {
@@ -18,9 +18,13 @@ Window {
     Rectangle {
         id: root
 
-        anchors.fill: parent
+        anchors.top: parent.top
+        anchors.left: parent.left
+        width: 800
+        height: parent.height
 
-        property int taskWidth: 300
+
+        property int taskWidth: 200
 
         DelegateModel {
             id: visualModel
@@ -38,6 +42,40 @@ Window {
             spacing: 4
             cacheBuffer: 50
             orientation: ListView.Horizontal
+        }
+    }
+
+
+    //upfront insert task button
+    Rectangle {
+        id: insertColumnRectangle
+
+        anchors.top: parent.top
+        anchors.left: root.right
+
+        width: 50
+        height: 50  //! at the moment but must be relative later on
+        color: "lightsteelblue"
+
+        Text {
+            id: insertUpFrontText
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            text: qsTr("+")
+            color: "red"
+        }
+
+        MouseArea {
+            id: upFrontAddTaskButton
+
+            anchors.fill: parent
+            onClicked: {
+                console.log("Insert a new column")
+                var data = visualModel.model
+                data.push({"headertitle": "Header Title n", "tasks": []})
+                visualModel.model = data
+            }
         }
     }
 

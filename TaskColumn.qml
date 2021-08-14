@@ -98,9 +98,9 @@ Item {
                     console.log("drag.source.taskColumnIndex: " + drag.source.taskColumnIndex)
                     console.log("columnHeaderDragArea.taskColumnIndex: " + columnHeaderDragArea.taskColumnIndex)
 
-                    visualModel.items.move(
+                    visualModel.model.move(
                             drag.source.taskColumnIndex,
-                            columnHeaderDragArea.taskColumnIndex)                    
+                            columnHeaderDragArea.taskColumnIndex)
                 }
             }
         }
@@ -129,7 +129,46 @@ Item {
             }
 
 
+
+            //upfront insert task button
+            Rectangle {
+                id: insertTaskUpFrontRectangle
+
+                anchors.top: parent.top
+                anchors.left: parent.left
+
+                width: parent.width
+                height: 50
+                color: "lightsteelblue"
+
+                Text {
+                    id: insertUpFrontText
+
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("+")
+                    color: "red"
+                }
+
+                MouseArea {
+                    id: upFrontAddTaskButton
+
+                    anchors.fill: parent
+                    onClicked: {
+                        var tmpData = visualModel.model
+                        tmpData[taskColumnIndex].tasks.splice(0,0,{"description": "task number: 0", "color":"red", "title": "Task title"})
+                        visualModel.model = tmpData
+                    }
+                }
+            }
+
+
             Column {
+
+                anchors.top: insertTaskUpFrontRectangle.bottom
+                anchors.left: insertTaskUpFrontRectangle.left
+                width: parent.width
+                height: 500  //!to be improved
 
                 NoTaskPlaceholder {
                     id: noTaskPlaceholder

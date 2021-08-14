@@ -48,14 +48,12 @@ Popup {
             id: descriptionTextEditRectangle
 
             width: parent.width
-            height: descriptionTextEdit.contentHeight
+            height: descriptionTextEdit.contentHeight < 70 ? 70 : descriptionTextEdit.contentHeight
             border.color: "grey"
             border.width: 1
 
             TextEdit {
                 id: descriptionTextEdit
-
-                //height: contentHeight
 
                 anchors.fill: parent
                 focus: true
@@ -95,19 +93,6 @@ Popup {
                     console.log(visualModel.model)
                     visualModel.model = tmpData
                 }
-
-
-
-
-                //            onEditingFinished : {
-                //                var tmpData = visualModel.model
-                //                console.log("tmpData[taskColumnIndex].tasks[taskIndex].description: " + tmpData[taskColumnIndex].tasks[taskIndex].description)
-                //                tmpData[taskColumnIndex].tasks[taskIndex].description = taskDescriptionTextEdit.text
-                //                visualModel.model = tmpData
-                //            }
-
-
-
             }
 
             Button {
